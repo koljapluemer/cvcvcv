@@ -4,32 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
         @page {
             size: A4;
             margin: 2cm;
         }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto Condensed', sans-serif;
             line-height: 1.4;
             color: #333;
             font-size: 10pt;
+            font-weight: 300;
+        }
+        .name-title {
+            font-size: 2.4em;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 1em;
+            color: #222;
         }
         .section {
             margin-bottom: 1.2em;
         }
         .section-title {
-            font-size: 1.2em;
-            font-weight: bold;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.4em;
+            font-weight: 400;
             border-bottom: 2px solid #333;
             margin-bottom: 0.4em;
             padding-bottom: 0.2em;
+            color: #444;
         }
         .info-item {
             margin-bottom: 0.4em;
         }
         .info-key {
-            font-weight: bold;
+            font-weight: 400;
         }
         .education-item, .experience-item, .project-item {
             margin-bottom: 0.8em;
@@ -43,9 +56,15 @@
             font-style: italic;
             text-align: left;
             margin-right: 1em;
+            font-weight: 300;
         }
         .item-title {
-            font-weight: bold;
+            font-weight: 400;
+        }
+        .item-company {
+            font-weight: 300;
+            font-style: italic;
+            margin-bottom: 0.2em;
         }
         .skill-item {
             display: inline-block;
@@ -69,38 +88,29 @@
         </button>
     </div>
 
+    <div class="name-title">
+        {% for item in info_items %}
+            {% if item.item.key == 'Name' %}
+                {{ item.item.value }}
+            {% endif %}
+        {% endfor %}
+    </div>
+
     <!-- Personal Information -->
     {% if info_items %}
     <div class="section">
         <div class="section-title">Personal Information</div>
         {% for item in info_items %}
-        <div class="info-item">
-            <span class="info-key">{{ item.item.key }}:</span>
-            {% if item.use_alternative and item.item.alternative_value %}
-                {{ item.item.alternative_value }}
-            {% else %}
-                {{ item.item.value }}
-            {% endif %}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    <!-- Education -->
-    {% if education_items %}
-    <div class="section">
-        <div class="section-title">Education</div>
-        {% for item in education_items %}
-        <div class="education-item">
-            <div class="item-date">{{ item.item.education.end_date }}</div>
-            <div class="item-content">
-                <div class="item-title">{{ item.item.education.school }}</div>
-                <div>{{ item.item.education.degree }} - Final Grade: {{ item.item.education.grade }}</div>
-                {% if not item.is_short %}
-                <div>{{ item.item.description }}</div>
+            {% if item.item.key != 'Name' %}
+            <div class="info-item">
+                <span class="info-key">{{ item.item.key }}:</span>
+                {% if item.use_alternative and item.item.alternative_value %}
+                    {{ item.item.alternative_value }}
+                {% else %}
+                    {{ item.item.value }}
                 {% endif %}
             </div>
-        </div>
+            {% endif %}
         {% endfor %}
     </div>
     {% endif %}
@@ -122,12 +132,31 @@
                 {% endif %}
             </div>
             <div class="item-content">
-                <div class="item-title">{{ item.item.position }}</div>
-                <div class="item-company">{{ item.item.experience.company }}</div>
+                <div class="item-company" style="font-weight: 400; font-style: normal;">{{ item.item.experience.company }}</div>
+                <div class="item-title" style="font-weight: 300; font-style: italic;">{{ item.item.position }}</div>
                 {% if not item.is_short %}
                 <div>{{ item.item.description_long }}</div>
                 {% else %}
                 <div>{{ item.item.description_short }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Education -->
+    {% if education_items %}
+    <div class="section">
+        <div class="section-title">Education</div>
+        {% for item in education_items %}
+        <div class="education-item">
+            <div class="item-date">{{ item.item.education.end_date }}</div>
+            <div class="item-content">
+                <div class="item-title">{{ item.item.education.school }}</div>
+                <div>{{ item.item.education.degree }} - Final Grade: {{ item.item.education.grade }}</div>
+                {% if not item.is_short %}
+                <div>{{ item.item.description }}</div>
                 {% endif %}
             </div>
         </div>

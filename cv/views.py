@@ -511,8 +511,8 @@ def cv_generate(request):
                 'sort_date': experience.experience.start_date  # Add sort_date for sorting
             }
             experience_items.append(item)
-    # Sort experience items by start_date in ascending order (oldest first)
-    context['experience_items'] = sorted(experience_items, key=lambda x: x['sort_date'])
+    # Sort experience items by start_date in descending order (most recent first)
+    context['experience_items'] = sorted(experience_items, key=lambda x: x['sort_date'], reverse=True)
     
     # Process project items
     for project in project_model.objects.all():
