@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">CV Manager Dashboard</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Experience Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Experience</h2>
+                <p>Manage your work experience in both English and German</p>
+                <div class="card-actions justify-end">
+                    <a href="{% url 'experience_list' %}" class="btn btn-primary">View All</a>
+                    <a href="{% url 'experience_create' %}" class="btn btn-secondary">Add New</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Education Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Education</h2>
+                <p>Manage your education history in both languages</p>
+                <div class="card-actions justify-end">
+                    <a href="{% url 'education_list' %}" class="btn btn-primary">View All</a>
+                    <a href="{% url 'education_create' %}" class="btn btn-secondary">Add New</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Projects Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Projects</h2>
+                <p>Manage your projects and their descriptions</p>
+                <div class="card-actions justify-end">
+                    <a href="{% url 'project_list' %}" class="btn btn-primary">View All</a>
+                    <a href="{% url 'project_create' %}" class="btn btn-secondary">Add New</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Skills Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Skills</h2>
+                <p>Manage your skills and their descriptions</p>
+                <div class="card-actions justify-end">
+                    <a href="{% url 'skill_list' %}" class="btn btn-primary">View All</a>
+                    <a href="{% url 'skill_create' %}" class="btn btn-secondary">Add New</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

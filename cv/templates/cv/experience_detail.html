@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">{{ experience.company }}</h1>
+        <div class="flex gap-2">
+            <a href="{% url 'experience_edit' experience.pk %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'experience_delete' experience.pk %}" class="btn btn-error">Delete</a>
+        </div>
+    </div>
+    
+    <div class="card bg-base-100 shadow-xl mb-8">
+        <div class="card-body">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h2 class="text-lg font-semibold">Start Date</h2>
+                    <p>{{ experience.start_date }}</p>
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold">End Date</h2>
+                    <p>{{ experience.end_date }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tabs tabs-boxed mb-4">
+        <a class="tab tab-active" data-tab="english">English Version</a>
+        <a class="tab" data-tab="german">German Version</a>
+    </div>
+    
+    <!-- English Version -->
+    <div id="english" class="tab-content">
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                {% if english %}
+                <h2 class="card-title mb-4">{{ english.position }}</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Short Description</h3>
+                        <p class="whitespace-pre-wrap">{{ english.description_short }}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Long Description</h3>
+                        <p class="whitespace-pre-wrap">{{ english.description_long }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-gray-500">No English version available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- German Version -->
+    <div id="german" class="tab-content hidden">
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                {% if german %}
+                <h2 class="card-title mb-4">{{ german.position }}</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Short Description</h3>
+                        <p class="whitespace-pre-wrap">{{ german.description_short }}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Long Description</h3>
+                        <p class="whitespace-pre-wrap">{{ german.description_long }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-gray-500">No German version available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-8">
+        <a href="{% url 'experience_list' %}" class="btn btn-ghost">Back to List</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tabs .tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('tab-active'));
+            // Add active class to clicked tab
+            this.classList.add('tab-active');
+            
+            // Show/hide content
+            const targetId = this.getAttribute('data-tab');
+            tabContents.forEach(content => {
+                content.classList.toggle('hidden', content.id !== targetId);
+            });
+        });
+    });
+});
+</script>
+{% endblock %} 

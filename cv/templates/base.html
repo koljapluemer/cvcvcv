@@ -19,6 +19,11 @@
   <body class="min-h-screen flex flex-col bg-gray-50">
     <header class="bg-white shadow-sm">
       <nav class="flex justify-center gap-4 items-center px-4 py-4">
+        <a href="{% url 'dashboard' %}" class="btn btn-ghost">Dashboard</a>
+        <a href="{% url 'experience_list' %}" class="btn btn-ghost">Experiences</a>
+        <a href="{% url 'education_list' %}" class="btn btn-ghost">Education</a>
+        <a href="{% url 'project_list' %}" class="btn btn-ghost">Projects</a>
+        <a href="{% url 'skill_list' %}" class="btn btn-ghost">Skills</a>
       </nav>
     </header>
 

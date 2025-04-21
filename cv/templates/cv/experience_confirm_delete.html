@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">Delete Experience</h2>
+            <p class="mb-4">Are you sure you want to delete the experience at <strong>{{ experience.company }}</strong>?</p>
+            <p class="text-warning mb-6">This action cannot be undone and will delete both English and German versions.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="flex justify-end gap-4">
+                    <a href="{% url 'experience_detail' experience.pk %}" class="btn btn-ghost">Cancel</a>
+                    <button type="submit" class="btn btn-error">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

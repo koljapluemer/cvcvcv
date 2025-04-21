@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Skills</h1>
+        <a href="{% url 'skill_create' %}" class="btn btn-primary">Add New Skill</a>
+    </div>
+
+    <div class="grid gap-6">
+        {% for skill in skills %}
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="card-title">{{ skill.name }}</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="{% url 'skill_detail' skill.pk %}" class="btn btn-sm btn-info">View</a>
+                        <a href="{% url 'skill_edit' skill.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'skill_delete' skill.pk %}" class="btn btn-sm btn-error">Delete</a>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="tabs">
+                        <a class="tab tab-bordered tab-active">English</a>
+                        <a class="tab tab-bordered">German</a>
+                    </div>
+                    
+                    <div class="mt-4">
+                        {% with english=skill.skillenglish_set.first %}
+                        {% if english %}
+                        <p class="whitespace-pre-wrap">{{ english.description }}</p>
+                        {% else %}
+                        <p class="text-gray-500">No English version available</p>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    
+                    <div class="mt-4 hidden">
+                        {% with german=skill.skillgerman_set.first %}
+                        {% if german %}
+                        <p class="whitespace-pre-wrap">{{ german.description }}</p>
+                        {% else %}
+                        <p class="text-gray-500">No German version available</p>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-8">
+            <p class="text-gray-500">No skills added yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tabs .tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('tab-active'));
+            // Add active class to clicked tab
+            this.classList.add('tab-active');
+            
+            // Show/hide content
+            const contentDivs = this.closest('.card-body').querySelectorAll('.mt-4');
+            contentDivs.forEach((div, index) => {
+                if (index === 0) {
+                    div.classList.toggle('hidden', this.textContent.trim() === 'German');
+                } else {
+                    div.classList.toggle('hidden', this.textContent.trim() === 'English');
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %} 

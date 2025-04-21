@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Work Experience</h1>
+        <a href="{% url 'experience_create' %}" class="btn btn-primary">Add New Experience</a>
+    </div>
+
+    <div class="grid gap-6">
+        {% for experience in experiences %}
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="card-title">{{ experience.company }}</h2>
+                        <p class="text-gray-600">{{ experience.start_date }} - {{ experience.end_date }}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="{% url 'experience_detail' experience.pk %}" class="btn btn-sm btn-info">View</a>
+                        <a href="{% url 'experience_edit' experience.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'experience_delete' experience.pk %}" class="btn btn-sm btn-error">Delete</a>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="tabs">
+                        <a class="tab tab-bordered tab-active">English</a>
+                        <a class="tab tab-bordered">German</a>
+                    </div>
+                    
+                    <div class="mt-4">
+                        {% with english=experience.experienceenglish_set.first %}
+                        {% if english %}
+                        <h3 class="font-semibold">{{ english.position }}</h3>
+                        <p class="mt-2">{{ english.description_short }}</p>
+                        {% else %}
+                        <p class="text-gray-500">No English version available</p>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    
+                    <div class="mt-4 hidden">
+                        {% with german=experience.experiencegerman_set.first %}
+                        {% if german %}
+                        <h3 class="font-semibold">{{ german.position }}</h3>
+                        <p class="mt-2">{{ german.description_short }}</p>
+                        {% else %}
+                        <p class="text-gray-500">No German version available</p>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-8">
+            <p class="text-gray-500">No experiences added yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tabs .tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('tab-active'));
+            // Add active class to clicked tab
+            this.classList.add('tab-active');
+            
+            // Show/hide content
+            const contentDivs = this.closest('.card-body').querySelectorAll('.mt-4');
+            contentDivs.forEach((div, index) => {
+                if (index === 0) {
+                    div.classList.toggle('hidden', this.textContent.trim() === 'German');
+                } else {
+                    div.classList.toggle('hidden', this.textContent.trim() === 'English');
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %} 
