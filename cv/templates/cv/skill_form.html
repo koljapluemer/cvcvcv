@@ -25,11 +25,13 @@
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
                 <h2 class="card-title mb-4">English Version</h2>
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Description (English)</span>
-                    </label>
-                    <textarea name="description_en" class="textarea textarea-bordered h-32" required>{{ english.description|default:'' }}</textarea>
+                <div class="space-y-4">
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Description (English)</span>
+                        </label>
+                        <textarea name="description_en" class="textarea textarea-bordered h-32" required>{{ english.description|default:'' }}</textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,11 +40,13 @@
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
                 <h2 class="card-title mb-4">German Version</h2>
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Description (German)</span>
-                    </label>
-                    <textarea name="description_de" class="textarea textarea-bordered h-32" required>{{ german.description|default:'' }}</textarea>
+                <div class="space-y-4">
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Description (German)</span>
+                        </label>
+                        <textarea name="description_de" class="textarea textarea-bordered h-32" required>{{ german.description|default:'' }}</textarea>
+                    </div>
                 </div>
             </div>
         </div>

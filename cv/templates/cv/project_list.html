@@ -16,7 +16,6 @@
                         <h2 class="card-title">{{ project.internal_tag }}</h2>
                     </div>
                     <div class="flex gap-2">
-                        <a href="{% url 'project_detail' project.pk %}" class="btn btn-sm btn-info">View</a>
                         <a href="{% url 'project_edit' project.pk %}" class="btn btn-sm btn-warning">Edit</a>
                         <a href="{% url 'project_delete' project.pk %}" class="btn btn-sm btn-error">Delete</a>
                     </div>

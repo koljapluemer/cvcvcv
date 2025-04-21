@@ -16,7 +16,6 @@
                         <h2 class="card-title">{{ skill.name }}</h2>
                     </div>
                     <div class="flex gap-2">
-                        <a href="{% url 'skill_detail' skill.pk %}" class="btn btn-sm btn-info">View</a>
                         <a href="{% url 'skill_edit' skill.pk %}" class="btn btn-sm btn-warning">Edit</a>
                         <a href="{% url 'skill_delete' skill.pk %}" class="btn btn-sm btn-error">Delete</a>
                     </div>

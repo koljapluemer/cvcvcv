@@ -23,23 +23,6 @@ def experience_list(request):
         'experiences': experiences,
     })
 
-def experience_detail(request, pk):
-    experience = get_object_or_404(Experience, pk=pk)
-    try:
-        english = ExperienceEnglish.objects.get(experience=experience)
-    except ExperienceEnglish.DoesNotExist:
-        english = None
-    try:
-        german = ExperienceGerman.objects.get(experience=experience)
-    except ExperienceGerman.DoesNotExist:
-        german = None
-    
-    return render(request, 'cv/experience_detail.html', {
-        'experience': experience,
-        'english': english,
-        'german': german,
-    })
-
 def experience_create(request):
     if request.method == 'POST':
         # Create base experience
@@ -66,7 +49,7 @@ def experience_create(request):
         )
         
         messages.success(request, 'Experience created successfully!')
-        return redirect('experience_detail', pk=experience.pk)
+        return redirect('experience_list')
     
     return render(request, 'cv/experience_form.html', {
         'action': 'Create',
@@ -97,7 +80,7 @@ def experience_edit(request, pk):
         german.save()
         
         messages.success(request, 'Experience updated successfully!')
-        return redirect('experience_detail', pk=experience.pk)
+        return redirect('experience_list')
     
     return render(request, 'cv/experience_form.html', {
         'action': 'Edit',
@@ -123,29 +106,11 @@ def education_list(request):
         'educations': educations,
     })
 
-def education_detail(request, pk):
-    education = get_object_or_404(Education, pk=pk)
-    try:
-        english = EducationEnglish.objects.get(education=education)
-    except EducationEnglish.DoesNotExist:
-        english = None
-    try:
-        german = EducationGerman.objects.get(education=education)
-    except EducationGerman.DoesNotExist:
-        german = None
-    
-    return render(request, 'cv/education_detail.html', {
-        'education': education,
-        'english': english,
-        'german': german,
-    })
-
 def education_create(request):
     if request.method == 'POST':
         # Create base education
         education = Education.objects.create(
             school=request.POST.get('school'),
-            start_date=request.POST.get('start_date'),
             end_date=request.POST.get('end_date'),
             degree=request.POST.get('degree'),
         )
@@ -163,7 +128,7 @@ def education_create(request):
         )
         
         messages.success(request, 'Education created successfully!')
-        return redirect('education_detail', pk=education.pk)
+        return redirect('education_list')
     
     return render(request, 'cv/education_form.html', {
         'action': 'Create',
@@ -177,7 +142,6 @@ def education_edit(request, pk):
     if request.method == 'POST':
         # Update base education
         education.school = request.POST.get('school')
-        education.start_date = request.POST.get('start_date')
         education.end_date = request.POST.get('end_date')
         education.degree = request.POST.get('degree')
         education.save()
@@ -191,7 +155,7 @@ def education_edit(request, pk):
         german.save()
         
         messages.success(request, 'Education updated successfully!')
-        return redirect('education_detail', pk=education.pk)
+        return redirect('education_list')
     
     return render(request, 'cv/education_form.html', {
         'action': 'Edit',
@@ -217,23 +181,6 @@ def project_list(request):
         'projects': projects,
     })
 
-def project_detail(request, pk):
-    project = get_object_or_404(Project, pk=pk)
-    try:
-        english = ProjectEnglish.objects.get(project=project)
-    except ProjectEnglish.DoesNotExist:
-        english = None
-    try:
-        german = ProjectGerman.objects.get(project=project)
-    except ProjectGerman.DoesNotExist:
-        german = None
-    
-    return render(request, 'cv/project_detail.html', {
-        'project': project,
-        'english': english,
-        'german': german,
-    })
-
 def project_create(request):
     if request.method == 'POST':
         # Create base project
@@ -256,7 +203,7 @@ def project_create(request):
         )
         
         messages.success(request, 'Project created successfully!')
-        return redirect('project_detail', pk=project.pk)
+        return redirect('project_list')
     
     return render(request, 'cv/project_form.html', {
         'action': 'Create',
@@ -283,7 +230,7 @@ def project_edit(request, pk):
         german.save()
         
         messages.success(request, 'Project updated successfully!')
-        return redirect('project_detail', pk=project.pk)
+        return redirect('project_list')
     
     return render(request, 'cv/project_form.html', {
         'action': 'Edit',
@@ -309,23 +256,6 @@ def skill_list(request):
         'skills': skills,
     })
 
-def skill_detail(request, pk):
-    skill = get_object_or_404(Skill, pk=pk)
-    try:
-        english = SkillEnglish.objects.get(skill=skill)
-    except SkillEnglish.DoesNotExist:
-        english = None
-    try:
-        german = SkillGerman.objects.get(skill=skill)
-    except SkillGerman.DoesNotExist:
-        german = None
-    
-    return render(request, 'cv/skill_detail.html', {
-        'skill': skill,
-        'english': english,
-        'german': german,
-    })
-
 def skill_create(request):
     if request.method == 'POST':
         # Create base skill
@@ -346,7 +276,7 @@ def skill_create(request):
         )
         
         messages.success(request, 'Skill created successfully!')
-        return redirect('skill_detail', pk=skill.pk)
+        return redirect('skill_list')
     
     return render(request, 'cv/skill_form.html', {
         'action': 'Create',
@@ -371,7 +301,7 @@ def skill_edit(request, pk):
         german.save()
         
         messages.success(request, 'Skill updated successfully!')
-        return redirect('skill_detail', pk=skill.pk)
+        return redirect('skill_list')
     
     return render(request, 'cv/skill_form.html', {
         'action': 'Edit',
