@@ -31,6 +31,7 @@ class Education(models.Model):
     school = models.CharField(max_length=200)
     end_date = models.CharField(max_length=200)
     degree = models.CharField(max_length=200)
+    grade = models.CharField(max_length=200)
 
     def __str__(self):
         return self.school

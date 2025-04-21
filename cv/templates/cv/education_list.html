@@ -21,6 +21,8 @@
                             In Progress
                             {% endif %}
                         </p>
+                        <p class="text-gray-600">Degree: {{ education.degree }}</p>
+                        <p class="text-gray-600">Grade: {{ education.grade }}</p>
                     </div>
                     <div class="flex gap-2">
                         <a href="{% url 'education_edit' education.pk %}" class="btn btn-sm btn-warning">Edit</a>
@@ -33,8 +35,7 @@
                     {% if english %}
                     <div>
                         <h3 class="font-semibold">English</h3>
-                        <p class="mt-2">{{ english.degree }}</p>
-                        <p class="mt-2">{{ english.description_short }}</p>
+                        <p class="mt-2">{{ english.description }}</p>
                     </div>
                     {% endif %}
                     {% endwith %}
@@ -43,8 +44,7 @@
                     {% if german %}
                     <div>
                         <h3 class="font-semibold">German</h3>
-                        <p class="mt-2">{{ german.degree }}</p>
-                        <p class="mt-2">{{ german.description_short }}</p>
+                        <p class="mt-2">{{ german.description }}</p>
                     </div>
                     {% endif %}
                     {% endwith %}

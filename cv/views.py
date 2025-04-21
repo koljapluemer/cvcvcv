@@ -113,6 +113,7 @@ def education_create(request):
             school=request.POST.get('school'),
             end_date=request.POST.get('end_date'),
             degree=request.POST.get('degree'),
+            grade=request.POST.get('grade'),
         )
         
         # Create English version
@@ -144,6 +145,7 @@ def education_edit(request, pk):
         education.school = request.POST.get('school')
         education.end_date = request.POST.get('end_date')
         education.degree = request.POST.get('degree')
+        education.grade = request.POST.get('grade')
         education.save()
         
         # Update English version
