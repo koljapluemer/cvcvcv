@@ -119,6 +119,16 @@
     </div>
     {% endif %}
 
+    <!-- Cover Letter -->
+    {% if cover_letter %}
+    <div class="section">
+        <div class="section-title">Cover Letter</div>
+        <div class="cover-letter-content">
+            {{ cover_letter.content|linebreaks }}
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Experience -->
     {% if experience_items %}
     <div class="section">

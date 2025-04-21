@@ -433,6 +433,7 @@ def cv_create(request):
     experience_items = ExperienceEnglish.objects.all()
     project_items = ProjectEnglish.objects.all()
     skill_items = SkillEnglish.objects.all()
+    cover_letters = CoverLetter.objects.all()
     
     context = {
         'info_items': info_items,
@@ -440,6 +441,7 @@ def cv_create(request):
         'experience_items': experience_items,
         'project_items': project_items,
         'skill_items': skill_items,
+        'cover_letters': cover_letters,
     }
     
     return render(request, 'cv/cv_form.html', context)
@@ -451,6 +453,12 @@ def cv_generate(request):
     
     # Get language selection
     language = request.POST.get('language', 'en')
+    
+    # Get cover letter if selected
+    cover_letter_id = request.POST.get('cover_letter')
+    cover_letter = None
+    if cover_letter_id:
+        cover_letter = get_object_or_404(CoverLetter, id=cover_letter_id)
     
     # Get appropriate models based on language
     if language == 'en':
@@ -469,6 +477,7 @@ def cv_generate(request):
     # Initialize context
     context = {
         'language': language,
+        'cover_letter': cover_letter,
         'info_items': [],
         'education_items': [],
         'experience_items': [],

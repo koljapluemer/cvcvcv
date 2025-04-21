@@ -52,6 +52,24 @@
             </div>
         </div>
 
+        <!-- Cover Letter Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Cover Letter</h2>
+                <div class="form-control">
+                    <label class="label" for="cover_letter">
+                        <span class="label-text">Select Cover Letter</span>
+                    </label>
+                    <select id="cover_letter" name="cover_letter" class="select select-bordered w-full">
+                        <option value="">No Cover Letter</option>
+                        {% for cover_letter in cover_letters %}
+                        <option value="{{ cover_letter.id }}">{{ cover_letter.internal_tag }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <!-- Education Section -->
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
