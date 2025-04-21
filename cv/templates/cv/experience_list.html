@@ -14,7 +14,14 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <h2 class="card-title">{{ experience.company }}</h2>
-                        <p class="text-gray-600">{{ experience.start_date }} - {{ experience.end_date }}</p>
+                        <p class="text-gray-600">
+                            {{ experience.start_date }}
+                            {% if experience.end_date %}
+                            - {{ experience.end_date }}
+                            {% else %}
+                            - Present
+                            {% endif %}
+                        </p>
                     </div>
                     <div class="flex gap-2">
                         <a href="{% url 'experience_detail' experience.pk %}" class="btn btn-sm btn-info">View</a>

@@ -4,7 +4,7 @@ from django.db import models
 class Experience(models.Model):
     company = models.CharField(max_length=200)
     start_date = models.CharField(max_length=200)
-    end_date = models.CharField(max_length=200)
+    end_date = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.company
@@ -29,7 +29,6 @@ class ExperienceGerman(models.Model):
 
 class Education(models.Model):
     school = models.CharField(max_length=200)
-    start_date = models.CharField(max_length=200)
     end_date = models.CharField(max_length=200)
     degree = models.CharField(max_length=200)
 

@@ -14,8 +14,13 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <h2 class="card-title">{{ education.school }}</h2>
-                        <p class="text-gray-600">{{ education.start_date }} - {{ education.end_date }}</p>
-                        <p class="text-gray-600">{{ education.degree }}</p>
+                        <p class="text-gray-600">
+                            {% if education.end_date %}
+                            Graduated: {{ education.end_date }}
+                            {% else %}
+                            In Progress
+                            {% endif %}
+                        </p>
                     </div>
                     <div class="flex gap-2">
                         <a href="{% url 'education_detail' education.pk %}" class="btn btn-sm btn-info">View</a>
@@ -29,7 +34,8 @@
                     {% if english %}
                     <div>
                         <h3 class="font-semibold">English</h3>
-                        <p class="mt-2">{{ english.description }}</p>
+                        <p class="mt-2">{{ english.degree }}</p>
+                        <p class="mt-2">{{ english.description_short }}</p>
                     </div>
                     {% endif %}
                     {% endwith %}
@@ -38,7 +44,8 @@
                     {% if german %}
                     <div>
                         <h3 class="font-semibold">German</h3>
-                        <p class="mt-2">{{ german.description }}</p>
+                        <p class="mt-2">{{ german.degree }}</p>
+                        <p class="mt-2">{{ german.description_short }}</p>
                     </div>
                     {% endif %}
                     {% endwith %}
