@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Create CV</h1>
+    
+    <form method="post" action="{% url 'cv_generate' %}" class="space-y-8">
+        {% csrf_token %}
+        
+        <!-- Language Selection -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Language</h2>
+                <div class="form-control">
+                    <label class="label cursor-pointer">
+                        <span class="label-text">English</span>
+                        <input type="radio" name="language" value="en" class="radio radio-primary" checked>
+                    </label>
+                    <label class="label cursor-pointer">
+                        <span class="label-text">German</span>
+                        <input type="radio" name="language" value="de" class="radio radio-primary">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Personal Information</h2>
+                <div class="space-y-4">
+                    {% for info in info_items %}
+                    <div class="border rounded-lg p-4">
+                        <h3 class="font-semibold mb-2">{{ info.key }}</h3>
+                        <div class="form-control">
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Full Version</span>
+                                <input type="radio" name="info_{{ info.id }}" value="full" class="radio radio-primary" checked>
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Use Alternative Value</span>
+                                <input type="checkbox" name="info_alt_{{ info.id }}" class="checkbox checkbox-primary">
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Exclude</span>
+                                <input type="radio" name="info_{{ info.id }}" value="none" class="radio radio-primary">
+                            </label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Education Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Education</h2>
+                <div class="space-y-4">
+                    {% for education in education_items %}
+                    <div class="border rounded-lg p-4">
+                        <h3 class="font-semibold mb-2">{{ education.education.school }}</h3>
+                        <div class="form-control">
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Full Version</span>
+                                <input type="radio" name="education_{{ education.id }}" value="full" class="radio radio-primary" checked>
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Short Version</span>
+                                <input type="radio" name="education_{{ education.id }}" value="short" class="radio radio-primary">
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Exclude</span>
+                                <input type="radio" name="education_{{ education.id }}" value="none" class="radio radio-primary">
+                            </label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Experience</h2>
+                <div class="space-y-4">
+                    {% for experience in experience_items %}
+                    <div class="border rounded-lg p-4">
+                        <h3 class="font-semibold mb-2">{{ experience.experience.company }} - {{ experience.position }}</h3>
+                        <div class="form-control">
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Full Version</span>
+                                <input type="radio" name="experience_{{ experience.id }}" value="full" class="radio radio-primary" checked>
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Short Version</span>
+                                <input type="radio" name="experience_{{ experience.id }}" value="short" class="radio radio-primary">
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Exclude</span>
+                                <input type="radio" name="experience_{{ experience.id }}" value="none" class="radio radio-primary">
+                            </label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Projects</h2>
+                <div class="space-y-4">
+                    {% for project in project_items %}
+                    <div class="border rounded-lg p-4">
+                        <h3 class="font-semibold mb-2">{{ project.name }}</h3>
+                        <div class="form-control">
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Full Version</span>
+                                <input type="radio" name="project_{{ project.id }}" value="full" class="radio radio-primary" checked>
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Short Version</span>
+                                <input type="radio" name="project_{{ project.id }}" value="short" class="radio radio-primary">
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Exclude</span>
+                                <input type="radio" name="project_{{ project.id }}" value="none" class="radio radio-primary">
+                            </label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Skill Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Skills</h2>
+                <div class="space-y-4">
+                    {% for skill in skill_items %}
+                    <div class="border rounded-lg p-4">
+                        <h3 class="font-semibold mb-2">{{ skill.skill.name }}</h3>
+                        <div class="form-control">
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Full Version</span>
+                                <input type="radio" name="skill_{{ skill.id }}" value="full" class="radio radio-primary" checked>
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Short Version</span>
+                                <input type="radio" name="skill_{{ skill.id }}" value="short" class="radio radio-primary">
+                            </label>
+                            <label class="label cursor-pointer">
+                                <span class="label-text">Exclude</span>
+                                <input type="radio" name="skill_{{ skill.id }}" value="none" class="radio radio-primary">
+                            </label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end space-x-4">
+            <a href="{% url 'info_list' %}" class="btn btn-ghost">Cancel</a>
+            <button type="submit" class="btn btn-primary">Generate CV</button>
+        </div>
+    </form>
+</div>
+{% endblock %} 

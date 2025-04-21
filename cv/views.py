@@ -9,6 +9,12 @@ from .models import (
     Skill, SkillEnglish, SkillGerman,
     Info, InfoEnglish, InfoGerman
 )
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.conf import settings
+from weasyprint import HTML
+from weasyprint.text.fonts import FontConfiguration
+import os
 
 def dashboard(request):
     """Main dashboard view showing overview of all sections"""
@@ -417,3 +423,121 @@ def info_delete(request, pk):
     return render(request, 'cv/info_confirm_delete.html', {
         'info': info,
     })
+
+def cv_create(request):
+    """Display the CV creation form with all items for individual selection"""
+    # Get all items in both languages
+    info_items = InfoEnglish.objects.all()
+    education_items = EducationEnglish.objects.all()
+    experience_items = ExperienceEnglish.objects.all()
+    project_items = ProjectEnglish.objects.all()
+    skill_items = SkillEnglish.objects.all()
+    
+    context = {
+        'info_items': info_items,
+        'education_items': education_items,
+        'experience_items': experience_items,
+        'project_items': project_items,
+        'skill_items': skill_items,
+    }
+    
+    return render(request, 'cv/cv_form.html', context)
+
+def cv_generate(request):
+    """Generate CV based on form submission with individual item selections"""
+    if request.method != 'POST':
+        return redirect('cv_create')
+    
+    # Get language selection
+    language = request.POST.get('language', 'en')
+    
+    # Get appropriate models based on language
+    if language == 'en':
+        info_model = InfoEnglish
+        education_model = EducationEnglish
+        experience_model = ExperienceEnglish
+        project_model = ProjectEnglish
+        skill_model = SkillEnglish
+    else:
+        info_model = InfoGerman
+        education_model = EducationGerman
+        experience_model = ExperienceGerman
+        project_model = ProjectGerman
+        skill_model = SkillGerman
+    
+    # Initialize context
+    context = {
+        'language': language,
+        'info_items': [],
+        'education_items': [],
+        'experience_items': [],
+        'project_items': [],
+        'skill_items': [],
+    }
+    
+    # Process info items
+    for info in info_model.objects.all():
+        include_type = request.POST.get(f'info_{info.id}')
+        if include_type != 'none':
+            item = {
+                'item': info,
+                'use_alternative': request.POST.get(f'info_alt_{info.id}') == 'on',
+                'is_short': False
+            }
+            context['info_items'].append(item)
+    
+    # Process education items
+    for education in education_model.objects.all():
+        include_type = request.POST.get(f'education_{education.id}')
+        if include_type != 'none':
+            item = {
+                'item': education,
+                'is_short': include_type == 'short'
+            }
+            context['education_items'].append(item)
+    
+    # Process experience items
+    for experience in experience_model.objects.all():
+        include_type = request.POST.get(f'experience_{experience.id}')
+        if include_type != 'none':
+            item = {
+                'item': experience,
+                'is_short': include_type == 'short'
+            }
+            context['experience_items'].append(item)
+    
+    # Process project items
+    for project in project_model.objects.all():
+        include_type = request.POST.get(f'project_{project.id}')
+        if include_type != 'none':
+            item = {
+                'item': project,
+                'is_short': include_type == 'short'
+            }
+            context['project_items'].append(item)
+    
+    # Process skill items
+    for skill in skill_model.objects.all():
+        include_type = request.POST.get(f'skill_{skill.id}')
+        if include_type != 'none':
+            item = {
+                'item': skill,
+                'is_short': include_type == 'short'
+            }
+            context['skill_items'].append(item)
+    
+    # Render HTML template
+    html_string = render_to_string('cv/cv_template.html', context)
+    
+    # Configure fonts
+    font_config = FontConfiguration()
+    
+    # Generate PDF
+    html = HTML(string=html_string)
+    pdf = html.write_pdf(font_config=font_config)
+    
+    # Create response
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="cv.pdf"'
+    
+    return response

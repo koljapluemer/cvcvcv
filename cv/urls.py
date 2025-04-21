@@ -33,4 +33,8 @@ urlpatterns = [
     path('info/create/', views.info_create, name='info_create'),
     path('info/<int:pk>/edit/', views.info_edit, name='info_edit'),
     path('info/<int:pk>/delete/', views.info_delete, name='info_delete'),
+    
+    # CV Generation URLs
+    path('cv/create/', views.cv_create, name='cv_create'),
+    path('cv/generate/', views.cv_generate, name='cv_generate'),
 ]

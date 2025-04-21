@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .section {
+            margin-bottom: 1.5em;
+        }
+        .section-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            border-bottom: 2px solid #333;
+            margin-bottom: 0.5em;
+            padding-bottom: 0.2em;
+        }
+        .info-item {
+            margin-bottom: 0.5em;
+        }
+        .info-key {
+            font-weight: bold;
+        }
+        .education-item, .experience-item, .project-item {
+            margin-bottom: 1em;
+        }
+        .item-title {
+            font-weight: bold;
+        }
+        .item-date {
+            font-style: italic;
+        }
+        .skill-item {
+            display: inline-block;
+            margin-right: 1em;
+            margin-bottom: 0.5em;
+        }
+        @media print {
+            body {
+                font-size: 12pt;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print" style="text-align: center; margin-bottom: 2em;">
+        <button onclick="window.print()" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Print/Save as PDF
+        </button>
+    </div>
+
+    <!-- Personal Information -->
+    {% if info_items %}
+    <div class="section">
+        <div class="section-title">Personal Information</div>
+        {% for item in info_items %}
+        <div class="info-item">
+            <span class="info-key">{{ item.item.key }}:</span>
+            {% if item.use_alternative and item.item.alternative_value %}
+                {{ item.item.alternative_value }}
+            {% else %}
+                {{ item.item.value }}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Education -->
+    {% if education_items %}
+    <div class="section">
+        <div class="section-title">Education</div>
+        {% for item in education_items %}
+        <div class="education-item">
+            <div class="item-title">{{ item.item.education.school }}</div>
+            <div class="item-date">{{ item.item.education.end_date }}</div>
+            <div>{{ item.item.education.degree }} - {{ item.item.education.grade }}</div>
+            {% if not item.is_short %}
+            <div>{{ item.item.description }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Experience -->
+    {% if experience_items %}
+    <div class="section">
+        <div class="section-title">Experience</div>
+        {% for item in experience_items %}
+        <div class="experience-item">
+            <div class="item-title">{{ item.item.position }} at {{ item.item.experience.company }}</div>
+            <div class="item-date">
+                {{ item.item.experience.start_date }}
+                {% if item.item.experience.end_date %}
+                - {{ item.item.experience.end_date }}
+                {% else %}
+                - Present
+                {% endif %}
+            </div>
+            {% if not item.is_short %}
+            <div>{{ item.item.description_long }}</div>
+            {% else %}
+            <div>{{ item.item.description_short }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Projects -->
+    {% if project_items %}
+    <div class="section">
+        <div class="section-title">Projects</div>
+        {% for item in project_items %}
+        <div class="project-item">
+            <div class="item-title">{{ item.item.name }}</div>
+            {% if not item.is_short %}
+            <div>{{ item.item.description_long }}</div>
+            {% else %}
+            <div>{{ item.item.description_short }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Skills -->
+    {% if skill_items %}
+    <div class="section">
+        <div class="section-title">Skills</div>
+        <div>
+            {% for item in skill_items %}
+            <div class="skill-item">
+                <span class="item-title">{{ item.item.skill.name }}:</span>
+                {% if not item.is_short %}
+                {{ item.item.description }}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html> 

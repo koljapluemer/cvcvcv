@@ -1,0 +1,2 @@
+weasyprint==65.1
+Django==5.2
