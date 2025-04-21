@@ -7,7 +7,8 @@ from .models import (
     Education, EducationEnglish, EducationGerman,
     Project, ProjectEnglish, ProjectGerman,
     Skill, SkillEnglish, SkillGerman,
-    Info, InfoEnglish, InfoGerman
+    Info, InfoEnglish, InfoGerman,
+    CoverLetter
 )
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -549,3 +550,48 @@ def cv_generate(request):
     response['Content-Disposition'] = 'attachment; filename="cv.pdf"'
     
     return response
+
+# Cover Letter Views
+def cover_letter_list(request):
+    cover_letters = CoverLetter.objects.all()
+    return render(request, 'cv/cover_letter_list.html', {
+        'cover_letters': cover_letters,
+    })
+
+def cover_letter_create(request):
+    if request.method == 'POST':
+        cover_letter = CoverLetter.objects.create(
+            internal_tag=request.POST.get('internal_tag'),
+            content=request.POST.get('content'),
+        )
+        messages.success(request, 'Cover letter created successfully!')
+        return redirect('cover_letter_list')
+    
+    return render(request, 'cv/cover_letter_form.html', {
+        'action': 'Create',
+    })
+
+def cover_letter_edit(request, pk):
+    cover_letter = get_object_or_404(CoverLetter, pk=pk)
+    
+    if request.method == 'POST':
+        cover_letter.internal_tag = request.POST.get('internal_tag')
+        cover_letter.content = request.POST.get('content')
+        cover_letter.save()
+        messages.success(request, 'Cover letter updated successfully!')
+        return redirect('cover_letter_list')
+    
+    return render(request, 'cv/cover_letter_form.html', {
+        'action': 'Edit',
+        'cover_letter': cover_letter,
+    })
+
+def cover_letter_delete(request, pk):
+    cover_letter = get_object_or_404(CoverLetter, pk=pk)
+    if request.method == 'POST':
+        cover_letter.delete()
+        messages.success(request, 'Cover letter deleted successfully!')
+        return redirect('cover_letter_list')
+    return render(request, 'cv/cover_letter_confirm_delete.html', {
+        'cover_letter': cover_letter,
+    })

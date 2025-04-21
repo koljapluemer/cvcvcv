@@ -123,4 +123,13 @@ class InfoGerman(models.Model):
         if not self.value:
             self.value = self.info.english.value
         super().save(*args, **kwargs)
-        
+
+
+class CoverLetter(models.Model):
+    internal_tag = models.CharField(max_length=200)
+    content = models.TextField()
+
+    def __str__(self):
+        return f'{self.internal_tag}'
+    
+    

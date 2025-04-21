@@ -37,4 +37,10 @@ urlpatterns = [
     # CV Generation URLs
     path('cv/create/', views.cv_create, name='cv_create'),
     path('cv/generate/', views.cv_generate, name='cv_generate'),
+
+    # Cover Letter URLs
+    path('cover-letters/', views.cover_letter_list, name='cover_letter_list'),
+    path('cover-letters/create/', views.cover_letter_create, name='cover_letter_create'),
+    path('cover-letters/<int:pk>/edit/', views.cover_letter_edit, name='cover_letter_edit'),
+    path('cover-letters/<int:pk>/delete/', views.cover_letter_delete, name='cover_letter_delete'),
 ]
