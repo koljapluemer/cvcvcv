@@ -113,12 +113,17 @@
         <div class="experience-item">
             <div class="item-date">
                 {{ item.item.experience.start_date }}
-                {% if item.item.experience.end_date and item.item.experience.end_date != item.item.experience.start_date %}
-                - {{ item.item.experience.end_date }}
+                {% if item.item.experience.end_date %}
+                    {% if item.item.experience.end_date != item.item.experience.start_date %}
+                        - {{ item.item.experience.end_date }}
+                    {% endif %}
+                {% else %}
+                    - Present
                 {% endif %}
             </div>
             <div class="item-content">
-                <div class="item-title">{{ item.item.position }} at {{ item.item.experience.company }}</div>
+                <div class="item-title">{{ item.item.position }}</div>
+                <div class="item-company">{{ item.item.experience.company }}</div>
                 {% if not item.is_short %}
                 <div>{{ item.item.description_long }}</div>
                 {% else %}

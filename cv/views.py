@@ -487,24 +487,32 @@ def cv_generate(request):
             context['info_items'].append(item)
     
     # Process education items
+    education_items = []
     for education in education_model.objects.all():
         include_type = request.POST.get(f'education_{education.id}')
         if include_type != 'none':
             item = {
                 'item': education,
-                'is_short': include_type == 'short'
+                'is_short': include_type == 'short',
+                'sort_date': education.education.end_date  # Add sort_date for sorting
             }
-            context['education_items'].append(item)
+            education_items.append(item)
+    # Sort education items by end_date in ascending order (oldest first)
+    context['education_items'] = sorted(education_items, key=lambda x: x['sort_date'])
     
     # Process experience items
+    experience_items = []
     for experience in experience_model.objects.all():
         include_type = request.POST.get(f'experience_{experience.id}')
         if include_type != 'none':
             item = {
                 'item': experience,
-                'is_short': include_type == 'short'
+                'is_short': include_type == 'short',
+                'sort_date': experience.experience.start_date  # Add sort_date for sorting
             }
-            context['experience_items'].append(item)
+            experience_items.append(item)
+    # Sort experience items by start_date in ascending order (oldest first)
+    context['experience_items'] = sorted(experience_items, key=lambda x: x['sort_date'])
     
     # Process project items
     for project in project_model.objects.all():
