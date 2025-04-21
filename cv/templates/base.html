@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV Manager</title>
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- DaisyUI -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen flex flex-col bg-gray-50">
+    <header class="bg-white shadow-sm">
+      <nav class="flex justify-center gap-4 items-center px-4 py-4">
+      </nav>
+    </header>
+
+    <!-- Toast Container -->
+    <div class="toast toast-top toast-end z-50">
+      {% if messages %} {% for message in messages %}
+      <div
+        class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %} cursor-pointer"
+        onclick="this.remove()"
+      >
+        <span>{{ message }}</span>
+      </div>
+      {% endfor %} {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+      {% block content %} {% endblock %}
+    </main>
+
+    <script>
+      // Auto-hide toasts after 3 seconds
+      document.addEventListener("DOMContentLoaded", function () {
+        const toasts = document.querySelectorAll(".alert");
+        toasts.forEach((toast) => {
+          setTimeout(() => {
+            toast.remove();
+          }, 3000);
+        });
+      });
+    </script>
+  </body>
+</html>
