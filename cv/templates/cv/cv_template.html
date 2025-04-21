@@ -11,42 +11,50 @@
         }
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
+            line-height: 1.4;
             color: #333;
+            font-size: 10pt;
         }
         .section {
-            margin-bottom: 1.5em;
+            margin-bottom: 1.2em;
         }
         .section-title {
-            font-size: 1.5em;
+            font-size: 1.2em;
             font-weight: bold;
             border-bottom: 2px solid #333;
-            margin-bottom: 0.5em;
+            margin-bottom: 0.4em;
             padding-bottom: 0.2em;
         }
         .info-item {
-            margin-bottom: 0.5em;
+            margin-bottom: 0.4em;
         }
         .info-key {
             font-weight: bold;
         }
         .education-item, .experience-item, .project-item {
-            margin-bottom: 1em;
+            margin-bottom: 0.8em;
+            display: flex;
+        }
+        .item-content {
+            flex: 1;
+        }
+        .item-date {
+            width: 100px;
+            font-style: italic;
+            text-align: left;
+            margin-right: 1em;
         }
         .item-title {
             font-weight: bold;
         }
-        .item-date {
-            font-style: italic;
-        }
         .skill-item {
             display: inline-block;
             margin-right: 1em;
-            margin-bottom: 0.5em;
+            margin-bottom: 0.4em;
         }
         @media print {
             body {
-                font-size: 12pt;
+                font-size: 10pt;
             }
             .no-print {
                 display: none;
@@ -84,12 +92,14 @@
         <div class="section-title">Education</div>
         {% for item in education_items %}
         <div class="education-item">
-            <div class="item-title">{{ item.item.education.school }}</div>
             <div class="item-date">{{ item.item.education.end_date }}</div>
-            <div>{{ item.item.education.degree }} - {{ item.item.education.grade }}</div>
-            {% if not item.is_short %}
-            <div>{{ item.item.description }}</div>
-            {% endif %}
+            <div class="item-content">
+                <div class="item-title">{{ item.item.education.school }}</div>
+                <div>{{ item.item.education.degree }} - Final Grade: {{ item.item.education.grade }}</div>
+                {% if not item.is_short %}
+                <div>{{ item.item.description }}</div>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
     </div>
@@ -101,20 +111,20 @@
         <div class="section-title">Experience</div>
         {% for item in experience_items %}
         <div class="experience-item">
-            <div class="item-title">{{ item.item.position }} at {{ item.item.experience.company }}</div>
             <div class="item-date">
                 {{ item.item.experience.start_date }}
-                {% if item.item.experience.end_date %}
+                {% if item.item.experience.end_date and item.item.experience.end_date != item.item.experience.start_date %}
                 - {{ item.item.experience.end_date }}
-                {% else %}
-                - Present
                 {% endif %}
             </div>
-            {% if not item.is_short %}
-            <div>{{ item.item.description_long }}</div>
-            {% else %}
-            <div>{{ item.item.description_short }}</div>
-            {% endif %}
+            <div class="item-content">
+                <div class="item-title">{{ item.item.position }} at {{ item.item.experience.company }}</div>
+                {% if not item.is_short %}
+                <div>{{ item.item.description_long }}</div>
+                {% else %}
+                <div>{{ item.item.description_short }}</div>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
     </div>
@@ -126,12 +136,14 @@
         <div class="section-title">Projects</div>
         {% for item in project_items %}
         <div class="project-item">
-            <div class="item-title">{{ item.item.name }}</div>
-            {% if not item.is_short %}
-            <div>{{ item.item.description_long }}</div>
-            {% else %}
-            <div>{{ item.item.description_short }}</div>
-            {% endif %}
+            <div class="item-content">
+                <div class="item-title">{{ item.item.name }}</div>
+                {% if not item.is_short %}
+                <div>{{ item.item.description_long }}</div>
+                {% else %}
+                <div>{{ item.item.description_short }}</div>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
     </div>
