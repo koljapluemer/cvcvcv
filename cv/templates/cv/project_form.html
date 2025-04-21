@@ -28,6 +28,13 @@
                 <div class="space-y-4">
                     <div class="form-control">
                         <label class="label">
+                            <span class="label-text">Name (English)</span>
+                        </label>
+                        <input type="text" name="name_en" class="input input-bordered" 
+                               value="{{ english.name|default:'' }}" required>
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
                             <span class="label-text">Short Description (English)</span>
                         </label>
                         <textarea name="description_short_en" class="textarea textarea-bordered h-24" required>{{ english.description_short|default:'' }}</textarea>
@@ -47,6 +54,13 @@
             <div class="card-body">
                 <h2 class="card-title mb-4">German Version</h2>
                 <div class="space-y-4">
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Name (German)</span>
+                        </label>
+                        <input type="text" name="name_de" class="input input-bordered" 
+                               value="{{ german.name|default:'' }}" required>
+                    </div>
                     <div class="form-control">
                         <label class="label">
                             <span class="label-text">Short Description (German)</span>

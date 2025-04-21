@@ -59,6 +59,7 @@ class Project(models.Model):
     
 class ProjectEnglish(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
     description_short = models.TextField()
     description_long = models.TextField()
 
@@ -67,6 +68,7 @@ class ProjectEnglish(models.Model):
     
 class ProjectGerman(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
     description_short = models.TextField()
     description_long = models.TextField()
 
@@ -92,3 +94,12 @@ class SkillGerman(models.Model):
 
     def __str__(self):
         return f'{self.skill.name} (DE)'
+
+class Info(models.Model):
+    key = models.CharField(max_length=200)
+    value = models.TextField()
+
+    def __str__(self):
+        return f'{self.key} (EN)'
+    
+    

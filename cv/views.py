@@ -193,6 +193,7 @@ def project_create(request):
         # Create English version
         ProjectEnglish.objects.create(
             project=project,
+            name=request.POST.get('name_en'),
             description_short=request.POST.get('description_short_en'),
             description_long=request.POST.get('description_long_en'),
         )
@@ -200,6 +201,7 @@ def project_create(request):
         # Create German version
         ProjectGerman.objects.create(
             project=project,
+            name=request.POST.get('name_de'),
             description_short=request.POST.get('description_short_de'),
             description_long=request.POST.get('description_long_de'),
         )
@@ -222,11 +224,13 @@ def project_edit(request, pk):
         project.save()
         
         # Update English version
+        english.name = request.POST.get('name_en')
         english.description_short = request.POST.get('description_short_en')
         english.description_long = request.POST.get('description_long_en')
         english.save()
         
         # Update German version
+        german.name = request.POST.get('name_de')
         german.description_short = request.POST.get('description_short_de')
         german.description_long = request.POST.get('description_long_de')
         german.save()
