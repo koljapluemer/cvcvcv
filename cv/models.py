@@ -96,10 +96,31 @@ class SkillGerman(models.Model):
         return f'{self.skill.name} (DE)'
 
 class Info(models.Model):
+    internal_tag = models.CharField(max_length=200)
+
+class InfoEnglish(models.Model):
+    info = models.ForeignKey(Info, on_delete=models.CASCADE)
     key = models.CharField(max_length=200)
     value = models.TextField()
+    alternative_value = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f'{self.key} (EN)'
+        return f'{self.info.internal_tag} (EN)'
     
+class InfoGerman(models.Model):
+    info = models.ForeignKey(Info, on_delete=models.CASCADE)
+    key = models.CharField(max_length=200, null=True, blank=True)
+    value = models.TextField(null=True, blank=True)
+    alternative_value = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.info.internal_tag} (DE)'
     
+    # if stuff doesn't exist on the german info, use the english info
+    def save(self, *args, **kwargs):
+        if not self.key:
+            self.key = self.info.english.key
+        if not self.value:
+            self.value = self.info.english.value
+        super().save(*args, **kwargs)
+        

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">{{ action }} Info</h1>
+    
+    <form method="post" class="space-y-8">
+        {% csrf_token %}
+        
+        <!-- Base Information -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Basic Information</h2>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Internal Tag</span>
+                    </label>
+                    <input type="text" name="internal_tag" class="input input-bordered" 
+                           value="{{ info.internal_tag|default:'' }}" required>
+                </div>
+            </div>
+        </div>
+        
+        <!-- English Version -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title mb-4">English Version</h2>
+                <div class="space-y-4">
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Key (English)</span>
+                        </label>
+                        <input type="text" name="key_en" class="input input-bordered" 
+                               value="{{ english.key|default:'' }}" required>
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Value (English)</span>
+                        </label>
+                        <textarea name="value_en" class="textarea textarea-bordered h-24" required>{{ english.value|default:'' }}</textarea>
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Alternative Value (English)</span>
+                        </label>
+                        <textarea name="alternative_value_en" class="textarea textarea-bordered h-24">{{ english.alternative_value|default:'' }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- German Version -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title mb-4">German Version (Optional)</h2>
+                <div class="space-y-4">
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Key (German)</span>
+                        </label>
+                        <input type="text" name="key_de" class="input input-bordered" 
+                               value="{{ german.key|default:'' }}">
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Value (German)</span>
+                        </label>
+                        <textarea name="value_de" class="textarea textarea-bordered h-24">{{ german.value|default:'' }}</textarea>
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Alternative Value (German)</span>
+                        </label>
+                        <textarea name="alternative_value_de" class="textarea textarea-bordered h-24">{{ german.alternative_value|default:'' }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex justify-end gap-4">
+            <a href="{% url 'info_list' %}" class="btn btn-ghost">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock %} 

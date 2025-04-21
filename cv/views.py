@@ -6,7 +6,8 @@ from .models import (
     Experience, ExperienceEnglish, ExperienceGerman,
     Education, EducationEnglish, EducationGerman,
     Project, ProjectEnglish, ProjectGerman,
-    Skill, SkillEnglish, SkillGerman
+    Skill, SkillEnglish, SkillGerman,
+    Info, InfoEnglish, InfoGerman
 )
 
 def dashboard(request):
@@ -324,4 +325,95 @@ def skill_delete(request, pk):
         return redirect('skill_list')
     return render(request, 'cv/skill_confirm_delete.html', {
         'skill': skill,
+    })
+
+# Info Views
+def info_list(request):
+    infos = Info.objects.all()
+    return render(request, 'cv/info_list.html', {
+        'infos': infos,
+    })
+
+def info_create(request):
+    if request.method == 'POST':
+        # Create base info
+        info = Info.objects.create(
+            internal_tag=request.POST.get('internal_tag'),
+        )
+        
+        # Create English version
+        InfoEnglish.objects.create(
+            info=info,
+            key=request.POST.get('key_en'),
+            value=request.POST.get('value_en'),
+            alternative_value=request.POST.get('alternative_value_en'),
+        )
+        
+        # Create German version if provided
+        if request.POST.get('key_de'):
+            InfoGerman.objects.create(
+                info=info,
+                key=request.POST.get('key_de'),
+                value=request.POST.get('value_de'),
+                alternative_value=request.POST.get('alternative_value_de'),
+            )
+        
+        messages.success(request, 'Info created successfully!')
+        return redirect('info_list')
+    
+    return render(request, 'cv/info_form.html', {
+        'action': 'Create',
+    })
+
+def info_edit(request, pk):
+    info = get_object_or_404(Info, pk=pk)
+    english = get_object_or_404(InfoEnglish, info=info)
+    german = InfoGerman.objects.filter(info=info).first()
+    
+    if request.method == 'POST':
+        # Update base info
+        info.internal_tag = request.POST.get('internal_tag')
+        info.save()
+        
+        # Update English version
+        english.key = request.POST.get('key_en')
+        english.value = request.POST.get('value_en')
+        english.alternative_value = request.POST.get('alternative_value_en')
+        english.save()
+        
+        # Update German version if it exists or create new one if provided
+        if german:
+            if request.POST.get('key_de'):
+                german.key = request.POST.get('key_de')
+                german.value = request.POST.get('value_de')
+                german.alternative_value = request.POST.get('alternative_value_de')
+                german.save()
+            else:
+                german.delete()
+        elif request.POST.get('key_de'):
+            InfoGerman.objects.create(
+                info=info,
+                key=request.POST.get('key_de'),
+                value=request.POST.get('value_de'),
+                alternative_value=request.POST.get('alternative_value_de'),
+            )
+        
+        messages.success(request, 'Info updated successfully!')
+        return redirect('info_list')
+    
+    return render(request, 'cv/info_form.html', {
+        'action': 'Edit',
+        'info': info,
+        'english': english,
+        'german': german,
+    })
+
+def info_delete(request, pk):
+    info = get_object_or_404(Info, pk=pk)
+    if request.method == 'POST':
+        info.delete()
+        messages.success(request, 'Info deleted successfully!')
+        return redirect('info_list')
+    return render(request, 'cv/info_confirm_delete.html', {
+        'info': info,
     })

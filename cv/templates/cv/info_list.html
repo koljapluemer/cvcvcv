@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Info</h1>
+        <a href="{% url 'info_create' %}" class="btn btn-primary">Add New Info</a>
+    </div>
+
+    <div class="grid gap-6">
+        {% for info in infos %}
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="card-title">{{ info.internal_tag }}</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="{% url 'info_edit' info.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'info_delete' info.pk %}" class="btn btn-sm btn-error">Delete</a>
+                    </div>
+                </div>
+                
+                <div class="mt-4 space-y-4">
+                    {% with english=info.infoenglish_set.first %}
+                    {% if english %}
+                    <div>
+                        <h3 class="font-semibold">English</h3>
+                        <p class="mt-2 font-medium">{{ english.key }}</p>
+                        <p class="mt-2">{{ english.value }}</p>
+                        {% if english.alternative_value %}
+                        <p class="mt-2 text-gray-600">{{ english.alternative_value }}</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    {% with german=info.infogerman_set.first %}
+                    {% if german %}
+                    <div>
+                        <h3 class="font-semibold">German</h3>
+                        <p class="mt-2 font-medium">{{ german.key }}</p>
+                        <p class="mt-2">{{ german.value }}</p>
+                        {% if german.alternative_value %}
+                        <p class="mt-2 text-gray-600">{{ german.alternative_value }}</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-8">
+            <p class="text-gray-500">No info entries added yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 
