@@ -132,7 +132,7 @@
     <!-- Experience -->
     {% if experience_items %}
     <div class="section">
-        <div class="section-title">Experience</div>
+        <div class="section-title">{{ section_titles.experience }}</div>
         {% for item in experience_items %}
         <div class="experience-item">
             <div class="item-date">
@@ -162,7 +162,7 @@
     <!-- Education -->
     {% if education_items %}
     <div class="section">
-        <div class="section-title">Education</div>
+        <div class="section-title">{{ section_titles.education }}</div>
         {% for item in education_items %}
         <div class="education-item">
             <div class="item-date">{{ item.item.education.end_date }}</div>
@@ -181,7 +181,7 @@
     <!-- Projects -->
     {% if project_items %}
     <div class="section">
-        <div class="section-title">Projects</div>
+        <div class="section-title">{{ section_titles.projects }}</div>
         {% for item in project_items %}
         <div class="project-item">
             <div class="item-content">
@@ -200,7 +200,7 @@
     <!-- Skills -->
     {% if skill_items %}
     <div class="section">
-        <div class="section-title">Skills</div>
+        <div class="section-title">{{ section_titles.skills }}</div>
         <div>
             {% for item in skill_items %}
             <div class="skill-item">

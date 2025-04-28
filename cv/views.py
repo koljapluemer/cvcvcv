@@ -483,6 +483,12 @@ def cv_generate(request):
         'experience_items': [],
         'project_items': [],
         'skill_items': [],
+        'section_titles': {
+            'experience': 'Experience' if language == 'en' else 'Arbeitserfahrung',
+            'education': 'Education' if language == 'en' else 'Akademisch',
+            'projects': 'Projects' if language == 'en' else 'Projekte',
+            'skills': 'Skills' if language == 'en' else 'Fähigkeiten',
+        }
     }
     
     # Process info items
