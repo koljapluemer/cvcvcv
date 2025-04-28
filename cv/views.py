@@ -525,24 +525,26 @@ def cv_generate(request):
     context['experience_items'] = sorted(experience_items, key=lambda x: x['sort_date'], reverse=True)
     
     # Process project items
-    for project in project_model.objects.all():
-        include_type = request.POST.get(f'project_{project.id}')
-        if include_type != 'none':
-            item = {
-                'item': project,
-                'is_short': include_type == 'short'
-            }
-            context['project_items'].append(item)
+    if request.POST.get('include_projects') == 'on':
+        for project in project_model.objects.all():
+            include_type = request.POST.get(f'project_{project.id}')
+            if include_type != 'none':
+                item = {
+                    'item': project,
+                    'is_short': include_type == 'short'
+                }
+                context['project_items'].append(item)
     
     # Process skill items
-    for skill in skill_model.objects.all():
-        include_type = request.POST.get(f'skill_{skill.id}')
-        if include_type != 'none':
-            item = {
-                'item': skill,
-                'is_short': include_type == 'short'
-            }
-            context['skill_items'].append(item)
+    if request.POST.get('include_skills') == 'on':
+        for skill in skill_model.objects.all():
+            include_type = request.POST.get(f'skill_{skill.id}')
+            if include_type != 'none':
+                item = {
+                    'item': skill,
+                    'is_short': include_type == 'short'
+                }
+                context['skill_items'].append(item)
     
     # Render HTML template
     html_string = render_to_string('cv/cv_template.html', context)

@@ -129,8 +129,16 @@
         <!-- Project Section -->
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
-                <h2 class="card-title">Projects</h2>
-                <div class="space-y-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="card-title">Projects</h2>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text mr-2">Include Projects</span>
+                            <input type="checkbox" name="include_projects" class="toggle toggle-primary" checked>
+                        </label>
+                    </div>
+                </div>
+                <div class="space-y-4" id="projects-content">
                     {% for project in project_items %}
                     <div class="border rounded-lg p-4">
                         <h3 class="font-semibold mb-2">{{ project.name }}</h3>
@@ -157,8 +165,16 @@
         <!-- Skill Section -->
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
-                <h2 class="card-title">Skills</h2>
-                <div class="space-y-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="card-title">Skills</h2>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text mr-2">Include Skills</span>
+                            <input type="checkbox" name="include_skills" class="toggle toggle-primary" checked>
+                        </label>
+                    </div>
+                </div>
+                <div class="space-y-4" id="skills-content">
                     {% for skill in skill_items %}
                     <div class="border rounded-lg p-4">
                         <h3 class="font-semibold mb-2">{{ skill.skill.name }}</h3>
