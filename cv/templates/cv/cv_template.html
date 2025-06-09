@@ -1,3 +1,4 @@
+{% load cv_extras %}
 <!DOCTYPE html>
 <html lang="{{ language }}">
 <head>
@@ -83,6 +84,39 @@
                 display: none;
             }
         }
+        /* Add styles for markdown content */
+        .markdown-content {
+            line-height: 1.6;
+        }
+        .markdown-content p {
+            margin-bottom: 0.5em;
+        }
+        .markdown-content ul, .markdown-content ol {
+            margin: 0.5em 0;
+            padding-left: 1.5em;
+        }
+        .markdown-content li {
+            margin-bottom: 0.3em;
+        }
+        .markdown-content code {
+            background-color: #f5f5f5;
+            padding: 0.1em 0.3em;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .markdown-content pre {
+            background-color: #f5f5f5;
+            padding: 0.5em;
+            border-radius: 3px;
+            overflow-x: auto;
+            margin: 0.5em 0;
+        }
+        .markdown-content blockquote {
+            border-left: 3px solid #ddd;
+            margin: 0.5em 0;
+            padding-left: 1em;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -123,8 +157,8 @@
     {% if cover_letter %}
     <div class="section">
         <div class="section-title">Cover Letter</div>
-        <div class="cover-letter-content">
-            {{ cover_letter.content|linebreaks }}
+        <div class="cover-letter-content markdown-content">
+            {{ cover_letter.content|markdown }}
         </div>
     </div>
     {% endif %}
@@ -149,9 +183,9 @@
                 <div class="item-company" style="font-weight: 400; font-style: normal;">{{ item.item.experience.company }}</div>
                 <div class="item-title" style="font-weight: 300; font-style: italic;">{{ item.item.position }}</div>
                 {% if not item.is_short %}
-                <div>{{ item.item.description_long }}</div>
+                <div class="markdown-content">{{ item.item.description_long|markdown }}</div>
                 {% else %}
-                <div>{{ item.item.description_short }}</div>
+                <div class="markdown-content">{{ item.item.description_short|markdown }}</div>
                 {% endif %}
             </div>
         </div>
@@ -170,7 +204,7 @@
                 <div class="item-title">{{ item.item.education.school }}</div>
                 <div>{{ item.item.education.degree }} - Final Grade: {{ item.item.education.grade }}</div>
                 {% if not item.is_short %}
-                <div>{{ item.item.description }}</div>
+                <div class="markdown-content">{{ item.item.description|markdown }}</div>
                 {% endif %}
             </div>
         </div>
@@ -192,9 +226,9 @@
                 </div>
                 {% endif %}
                 {% if not item.is_short %}
-                <div>{{ item.item.description_long }}</div>
+                <div class="markdown-content">{{ item.item.description_long|markdown }}</div>
                 {% else %}
-                <div>{{ item.item.description_short }}</div>
+                <div class="markdown-content">{{ item.item.description_short|markdown }}</div>
                 {% endif %}
             </div>
         </div>
@@ -211,7 +245,7 @@
             <div class="skill-item">
                 <span class="item-title">{{ item.item.skill.name }}:</span>
                 {% if not item.is_short %}
-                {{ item.item.description }}
+                <span class="markdown-content">{{ item.item.description|markdown }}</span>
                 {% endif %}
             </div>
             {% endfor %}
