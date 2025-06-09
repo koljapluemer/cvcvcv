@@ -43,6 +43,10 @@
             break-after: avoid;
             page-break-after: avoid;
         }
+        .new-page {
+            page-break-before: always;
+            break-before: page;
+        }
         .info-item {
             margin-bottom: 0.4em;
         }
@@ -163,8 +167,32 @@
     </div>
     {% endif %}
 
+    <!-- Projects (if pushed to top) -->
+    {% if projects_to_top and project_items %}
+    <div class="section new-page">
+        <div class="section-title">{{ section_titles.projects }}</div>
+        {% for item in project_items %}
+        <div class="project-item">
+            <div class="item-content">
+                <div class="item-title">{{ item.item.name }}</div>
+                {% if item.item.project.image and include_project_images %}
+                <div class="project-image" style="margin: 0.5em 0;">
+                    <img src="{{ current_site }}{{ item.item.project.image.url }}" alt="{{ item.item.name }}" style="max-width: 320px; height: auto;">
+                </div>
+                {% endif %}
+                {% if not item.is_short %}
+                <div class="markdown-content">{{ item.item.description_long|markdown }}</div>
+                {% else %}
+                <div class="markdown-content">{{ item.item.description_short|markdown }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <!-- Experience -->
-    {% if experience_items %}
+    {% if include_experience and experience_items %}
     <div class="section">
         <div class="section-title">{{ section_titles.experience }}</div>
         {% for item in experience_items %}
@@ -194,7 +222,7 @@
     {% endif %}
 
     <!-- Education -->
-    {% if education_items %}
+    {% if include_education and education_items %}
     <div class="section">
         <div class="section-title">{{ section_titles.education }}</div>
         {% for item in education_items %}
@@ -212,8 +240,8 @@
     </div>
     {% endif %}
 
-    <!-- Projects -->
-    {% if project_items %}
+    <!-- Projects (if not pushed to top) -->
+    {% if not projects_to_top and project_items %}
     <div class="section">
         <div class="section-title">{{ section_titles.projects }}</div>
         {% for item in project_items %}

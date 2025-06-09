@@ -490,6 +490,9 @@ def cv_generate(request):
         'project_items': [],
         'skill_items': [],
         'include_project_images': request.POST.get('include_project_images') == 'on',
+        'projects_to_top': request.POST.get('projects_to_top') == 'on',
+        'include_education': request.POST.get('include_education') == 'on',
+        'include_experience': request.POST.get('include_experience') == 'on',
         'current_site': current_site,
         'section_titles': {
             'experience': 'Experience' if language == 'en' else 'Arbeitserfahrung',
@@ -520,32 +523,34 @@ def cv_generate(request):
             context['info_items'].append(item)
     
     # Process education items
-    education_items = []
-    for education in education_model.objects.all():
-        include_type = request.POST.get(f'education_{education.id}')
-        if include_type != 'none':
-            item = {
-                'item': education,
-                'is_short': include_type == 'short',
-                'sort_date': education.education.end_date  # Add sort_date for sorting
-            }
-            education_items.append(item)
-    # Sort education items by end_date in ascending order (oldest first)
-    context['education_items'] = sorted(education_items, key=lambda x: x['sort_date'])
+    if request.POST.get('include_education') == 'on':
+        education_items = []
+        for education in education_model.objects.all():
+            include_type = request.POST.get(f'education_{education.id}')
+            if include_type != 'none':
+                item = {
+                    'item': education,
+                    'is_short': include_type == 'short',
+                    'sort_date': education.education.end_date  # Add sort_date for sorting
+                }
+                education_items.append(item)
+        # Sort education items by end_date in ascending order (oldest first)
+        context['education_items'] = sorted(education_items, key=lambda x: x['sort_date'])
     
     # Process experience items
-    experience_items = []
-    for experience in experience_model.objects.all():
-        include_type = request.POST.get(f'experience_{experience.id}')
-        if include_type != 'none':
-            item = {
-                'item': experience,
-                'is_short': include_type == 'short',
-                'sort_date': experience.experience.start_date  # Add sort_date for sorting
-            }
-            experience_items.append(item)
-    # Sort experience items by start_date in descending order (most recent first)
-    context['experience_items'] = sorted(experience_items, key=lambda x: x['sort_date'], reverse=True)
+    if request.POST.get('include_experience') == 'on':
+        experience_items = []
+        for experience in experience_model.objects.all():
+            include_type = request.POST.get(f'experience_{experience.id}')
+            if include_type != 'none':
+                item = {
+                    'item': experience,
+                    'is_short': include_type == 'short',
+                    'sort_date': experience.experience.start_date  # Add sort_date for sorting
+                }
+                experience_items.append(item)
+        # Sort experience items by start_date in descending order (most recent first)
+        context['experience_items'] = sorted(experience_items, key=lambda x: x['sort_date'], reverse=True)
     
     # Process project items
     if request.POST.get('include_projects') == 'on':

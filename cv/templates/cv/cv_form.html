@@ -73,8 +73,16 @@
         <!-- Education Section -->
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
-                <h2 class="card-title">Education</h2>
-                <div class="space-y-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="card-title">Education</h2>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text mr-2">Include Education</span>
+                            <input type="checkbox" name="include_education" class="toggle toggle-primary" checked>
+                        </label>
+                    </div>
+                </div>
+                <div class="space-y-4" id="education-content">
                     {% for education in education_items %}
                     <div class="border rounded-lg p-4">
                         <h3 class="font-semibold mb-2">{{ education.education.school }}</h3>
@@ -101,8 +109,16 @@
         <!-- Experience Section -->
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
-                <h2 class="card-title">Experience</h2>
-                <div class="space-y-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="card-title">Experience</h2>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text mr-2">Include Experience</span>
+                            <input type="checkbox" name="include_experience" class="toggle toggle-primary" checked>
+                        </label>
+                    </div>
+                </div>
+                <div class="space-y-4" id="experience-content">
                     {% for experience in experience_items %}
                     <div class="border rounded-lg p-4">
                         <h3 class="font-semibold mb-2">{{ experience.experience.company }} - {{ experience.position }}</h3>
@@ -139,6 +155,10 @@
                         <label class="label cursor-pointer">
                             <span class="label-text mr-2">Include Project Images</span>
                             <input type="checkbox" name="include_project_images" class="toggle toggle-primary" checked>
+                        </label>
+                        <label class="label cursor-pointer">
+                            <span class="label-text mr-2">Push Projects to Top</span>
+                            <input type="checkbox" name="projects_to_top" class="toggle toggle-primary">
                         </label>
                     </div>
                 </div>
