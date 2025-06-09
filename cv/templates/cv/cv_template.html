@@ -186,6 +186,11 @@
         <div class="project-item">
             <div class="item-content">
                 <div class="item-title">{{ item.item.name }}</div>
+                {% if item.item.project.image and include_project_images %}
+                <div class="project-image" style="margin: 0.5em 0;">
+                    <img src="{{ current_site }}{{ item.item.project.image.url }}" alt="{{ item.item.name }}" style="max-width: 320px; height: auto;">
+                </div>
+                {% endif %}
                 {% if not item.is_short %}
                 <div>{{ item.item.description_long }}</div>
                 {% else %}

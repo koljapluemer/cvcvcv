@@ -196,6 +196,7 @@ def project_create(request):
         # Create base project
         project = Project.objects.create(
             internal_tag=request.POST.get('internal_tag'),
+            image=request.FILES.get('image')
         )
         
         # Create English version
@@ -229,6 +230,8 @@ def project_edit(request, pk):
     if request.method == 'POST':
         # Update base project
         project.internal_tag = request.POST.get('internal_tag')
+        if 'image' in request.FILES:
+            project.image = request.FILES['image']
         project.save()
         
         # Update English version
@@ -474,6 +477,9 @@ def cv_generate(request):
         project_model = ProjectGerman
         skill_model = SkillGerman
     
+    # Get the current domain for absolute URLs
+    current_site = request.build_absolute_uri('/').rstrip('/')
+    
     # Initialize context
     context = {
         'language': language,
@@ -483,6 +489,8 @@ def cv_generate(request):
         'experience_items': [],
         'project_items': [],
         'skill_items': [],
+        'include_project_images': request.POST.get('include_project_images') == 'on',
+        'current_site': current_site,
         'section_titles': {
             'experience': 'Experience' if language == 'en' else 'Arbeitserfahrung',
             'education': 'Education' if language == 'en' else 'Akademisch',

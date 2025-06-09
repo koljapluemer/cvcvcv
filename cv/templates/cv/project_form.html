@@ -4,7 +4,7 @@
 <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold mb-8">{{ action }} Project</h1>
     
-    <form method="post" class="space-y-8">
+    <form method="post" enctype="multipart/form-data" class="space-y-8">
         {% csrf_token %}
         
         <!-- Base Information -->
@@ -17,6 +17,17 @@
                     </label>
                     <input type="text" name="internal_tag" class="input input-bordered" 
                            value="{{ project.internal_tag|default:'' }}" required>
+                </div>
+                <div class="form-control mt-4">
+                    <label class="label">
+                        <span class="label-text">Project Image</span>
+                    </label>
+                    {% if project.image %}
+                    <div class="mb-2">
+                        <img src="{{ project.image.url }}" alt="Current project image" class="w-32 h-32 object-cover rounded">
+                    </div>
+                    {% endif %}
+                    <input type="file" name="image" class="file-input file-input-bordered w-full" accept="image/*">
                 </div>
             </div>
         </div>

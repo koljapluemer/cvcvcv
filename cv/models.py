@@ -53,6 +53,7 @@ class EducationGerman(models.Model):
 
 class Project(models.Model):
     internal_tag = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='project_images/', null=True, blank=True)
 
     def __str__(self):
         return self.internal_tag

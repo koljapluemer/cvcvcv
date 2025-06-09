@@ -12,8 +12,15 @@
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
                 <div class="flex justify-between items-start">
-                    <div>
-                        <h2 class="card-title">{{ project.internal_tag }}</h2>
+                    <div class="flex gap-4">
+                        {% if project.image %}
+                        <div class="w-24 h-24 flex-shrink-0">
+                            <img src="{{ project.image.url }}" alt="{{ project.internal_tag }}" class="w-full h-full object-cover rounded">
+                        </div>
+                        {% endif %}
+                        <div>
+                            <h2 class="card-title">{{ project.internal_tag }}</h2>
+                        </div>
                     </div>
                     <div class="flex gap-2">
                         <a href="{% url 'project_edit' project.pk %}" class="btn btn-sm btn-warning">Edit</a>
