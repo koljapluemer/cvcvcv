@@ -494,6 +494,7 @@ def cv_generate(request):
         'include_education': request.POST.get('include_education') == 'on',
         'include_experience': request.POST.get('include_experience') == 'on',
         'include_personal_info': request.POST.get('include_personal_info') == 'on',
+        'show_cover_letter_heading': request.POST.get('show_cover_letter_heading') == 'on',
         'current_site': current_site,
         'section_titles': {
             'experience': 'Experience' if language == 'en' else 'Arbeitserfahrung',

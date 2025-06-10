@@ -162,7 +162,9 @@
     <!-- Cover Letter -->
     {% if cover_letter %}
     <div class="section">
+        {% if show_cover_letter_heading %}
         <div class="section-title">Cover Letter</div>
+        {% endif %}
         <div class="cover-letter-content markdown-content">
             {{ cover_letter.content|markdown }}
         </div>
