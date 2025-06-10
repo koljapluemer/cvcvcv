@@ -493,6 +493,7 @@ def cv_generate(request):
         'projects_to_top': request.POST.get('projects_to_top') == 'on',
         'include_education': request.POST.get('include_education') == 'on',
         'include_experience': request.POST.get('include_experience') == 'on',
+        'include_personal_info': request.POST.get('include_personal_info') == 'on',
         'current_site': current_site,
         'section_titles': {
             'experience': 'Experience' if language == 'en' else 'Arbeitserfahrung',
@@ -503,24 +504,25 @@ def cv_generate(request):
     }
     
     # Process info items
-    for info in info_model.objects.all():
-        include_type = request.POST.get(f'info_{info.id}')
-        if include_type != 'none':
-            # Get the corresponding English version if we're in German mode and the German version is missing
-            if language == 'de' and not hasattr(info, 'value'):
-                english_info = InfoEnglish.objects.get(info=info.info)
-                item = {
-                    'item': english_info,  # Use English version
-                    'use_alternative': request.POST.get(f'info_alt_{info.id}') == 'on',
-                    'is_short': False
-                }
-            else:
-                item = {
-                    'item': info,
-                    'use_alternative': request.POST.get(f'info_alt_{info.id}') == 'on',
-                    'is_short': False
-                }
-            context['info_items'].append(item)
+    if request.POST.get('include_personal_info') == 'on':
+        for info in info_model.objects.all():
+            include_type = request.POST.get(f'info_{info.id}')
+            if include_type != 'none':
+                # Get the corresponding English version if we're in German mode and the German version is missing
+                if language == 'de' and not hasattr(info, 'value'):
+                    english_info = InfoEnglish.objects.get(info=info.info)
+                    item = {
+                        'item': english_info,  # Use English version
+                        'use_alternative': request.POST.get(f'info_alt_{info.id}') == 'on',
+                        'is_short': False
+                    }
+                else:
+                    item = {
+                        'item': info,
+                        'use_alternative': request.POST.get(f'info_alt_{info.id}') == 'on',
+                        'is_short': False
+                    }
+                context['info_items'].append(item)
     
     # Process education items
     if request.POST.get('include_education') == 'on':

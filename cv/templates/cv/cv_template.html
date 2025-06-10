@@ -131,15 +131,17 @@
     </div>
 
     <div class="name-title">
-        {% for item in info_items %}
-            {% if item.item.key == 'Name' %}
-                {{ item.item.value }}
-            {% endif %}
-        {% endfor %}
+        {% if include_personal_info %}
+            {% for item in info_items %}
+                {% if item.item.key == 'Name' %}
+                    {{ item.item.value }}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
 
     <!-- Personal Information -->
-    {% if info_items %}
+    {% if include_personal_info and info_items %}
     <div class="section">
         <div class="section-title">Personal Information</div>
         {% for item in info_items %}
